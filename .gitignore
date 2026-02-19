@@ -1,0 +1,36 @@
+# Sensitive config files
+SupabaseConfig.txt
+Github.txt
+
+# Local database
+study_tracker.db
+
+# Streamlit secrets (local dev only — add secrets via Streamlit Cloud dashboard)
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
