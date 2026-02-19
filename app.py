@@ -22,6 +22,25 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# ── Password Gate ────────────────────────────────────────────────────
+def check_password() -> bool:
+    """Block access until the correct password is entered."""
+    if st.session_state.get("authenticated"):
+        return True
+    st.title("🔒 FDE Study Tracker")
+    st.caption("Enter the password to access your study tracker.")
+    pwd = st.text_input("Password", type="password", key="login_pwd")
+    if pwd:
+        if pwd == st.secrets["app"]["password"]:
+            st.session_state["authenticated"] = True
+            st.rerun()
+        else:
+            st.error("❌ Incorrect password. Try again.")
+    return False
+
+if not check_password():
+    st.stop()
+
 # ── Helpers ───────────────────────────────────────────────────────────
 PHASE_COLORS = {
     "Phase 1: Python & DSA": "🟦",
@@ -165,11 +184,15 @@ elif page == "📆 Weekly View":
 
         with st.expander(
             f"{status} **{entry['day_name']}** {entry['date'].strftime('%b %d')} — "
-            f"{entry['topic']} ({done}/{total})"
+            f"{entry['topic']} ({done}/{total})",
+            expanded=(entry["date"] == date.today()),
         ):
             for i, task in enumerate(entry["tasks"]):
-                is_done = "✅" if i in completed else "⬜"
-                st.markdown(f"{is_done} {task}")
+                checked = st.checkbox(
+                    task, value=(i in completed),
+                    key=f"wk_task_{entry['date_str']}_{i}"
+                )
+                toggle_task(entry["date_str"], i, checked)
             if entry["resources"]:
                 st.markdown("**Resources:** " + " · ".join(
                     f"[Link]({u})" for u in entry["resources"]
