@@ -5,6 +5,7 @@ A Streamlit app to track your 6-month learning journey.
 import streamlit as st
 from datetime import date, timedelta, datetime
 import pandas as pd
+from zoneinfo import ZoneInfo
 
 from schedule_data import SCHEDULE, WEEKLY_PLANS, START_DATE
 from database import (
@@ -42,6 +43,13 @@ if not check_password():
     st.stop()
 
 # ── Helpers ───────────────────────────────────────────────────────────
+# Set your local timezone (change this to your timezone)
+LOCAL_TZ = ZoneInfo("America/Chicago")  # Adjust to your timezone
+
+def get_local_today() -> date:
+    """Get today's date in the local timezone, not UTC."""
+    return datetime.now(LOCAL_TZ).date()
+
 PHASE_COLORS = {
     "Phase 1: Python & DSA": "🟦",
     "Phase 2: Agentic AI & Modern Data Stack": "🟩",
@@ -57,10 +65,10 @@ def get_day_entry(d: date):
 
 def days_until_end():
     end = START_DATE + timedelta(weeks=26)
-    return (end - date.today()).days
+    return (end - get_local_today()).days
 
 def current_week():
-    delta = (date.today() - START_DATE).days
+    delta = (get_local_today() - START_DATE).days
     if delta < 0:
         return 0
     return min(delta // 7 + 1, 26)
@@ -88,7 +96,7 @@ with st.sidebar:
 # ══════════════════════════════════════════════════════════════════════
 if page == "📅 Today":
     st.header("📅 Today's Study Plan")
-    selected_date = st.date_input("Date", value=date.today())
+    selected_date = st.date_input("Date", value=get_local_today())
     entry = get_day_entry(selected_date)
 
     if entry is None:
@@ -185,7 +193,7 @@ elif page == "📆 Weekly View":
         with st.expander(
             f"{status} **{entry['day_name']}** {entry['date'].strftime('%b %d')} — "
             f"{entry['topic']} ({done}/{total})",
-            expanded=(entry["date"] == date.today()),
+            expanded=(entry["date"] == get_local_today()),
         ):
             for i, task in enumerate(entry["tasks"]):
                 checked = st.checkbox(
