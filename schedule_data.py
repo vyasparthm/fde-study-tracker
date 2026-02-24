@@ -483,29 +483,28 @@ def generate_schedule() -> List[Dict]:
     schedule = []
     for week_plan in WEEKLY_PLANS:
         week_num = week_plan["week"]
+        phase = week_plan["phase"]
         # Cycle starts every Monday
         week_start = START_DATE + timedelta(weeks=week_num - 1)
-        
+
         for i, day_plan in enumerate(week_plan["days"]):
             day_date = week_start + timedelta(days=i)
-            weekday = day_date.weekday() 
-            is_weekend = weekday >= 5 
+            weekday = day_date.weekday()
+            is_weekend = weekday >= 5
             # Updated weekday hours to 3.5
             hours = 7.0 if is_weekend else 3.5
-            
+
             schedule.append({
-                "date": day_date.strftime("%Y-%m-%d"),
+                "date": day_date,  # date object for comparison
+                "date_str": day_date.strftime("%Y-%m-%d"),  # string for database keys
                 "day": DAY_NAMES[weekday],
                 "week": week_num,
+                "phase": phase,
                 "topic": day_plan["topic"],
                 "tasks": day_plan.get("tasks", []),
-                "hours": hours,
+                "target_hours": hours,
             })
     return schedule
 
-# Output first week for verification
-FULL_SCHEDULE = generate_schedule()
-print(f"{'DATE':<12} | {'DAY':<10} | {'HOURS':<5} | {'TOPIC'}")
-print("-" * 65)
-for day in FULL_SCHEDULE[:7]:
-    print(f"{day['date']:<12} | {day['day']:<10} | {day['hours']:<5.1f} | {day['topic']}")
+# Generate the schedule (used by app.py as SCHEDULE)
+SCHEDULE = generate_schedule()
