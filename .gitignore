@@ -11,6 +11,8 @@ final_restructure.py
 quick_reorder.py
 restructure_schedule.py
 simple_reorder.py
+test_schedule.py
+verify_app.py
 
 # Streamlit secrets (local dev only — add secrets via Streamlit Cloud dashboard)
 .streamlit/secrets.toml

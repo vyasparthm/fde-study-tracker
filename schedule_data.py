@@ -499,11 +499,13 @@ def generate_schedule() -> List[Dict]:
                 "date": day_date,  # date object for comparison
                 "date_str": day_date.strftime("%Y-%m-%d"),  # string for database keys
                 "day": DAY_NAMES[weekday],
+                "day_name": DAY_NAMES[weekday],  # alias used in weekly view
                 "week": week_num,
                 "phase": phase,
                 "theme": theme,
                 "topic": day_plan["topic"],
                 "tasks": day_plan.get("tasks", []),
+                "resources": day_plan.get("resources", []),  # resources list
                 "target_hours": hours,
             })
     return schedule
