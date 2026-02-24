@@ -484,6 +484,7 @@ def generate_schedule() -> List[Dict]:
     for week_plan in WEEKLY_PLANS:
         week_num = week_plan["week"]
         phase = week_plan["phase"]
+        theme = week_plan["theme"]
         # Cycle starts every Monday
         week_start = START_DATE + timedelta(weeks=week_num - 1)
 
@@ -500,6 +501,7 @@ def generate_schedule() -> List[Dict]:
                 "day": DAY_NAMES[weekday],
                 "week": week_num,
                 "phase": phase,
+                "theme": theme,
                 "topic": day_plan["topic"],
                 "tasks": day_plan.get("tasks", []),
                 "target_hours": hours,
