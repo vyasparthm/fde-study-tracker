@@ -5,6 +5,13 @@ Github.txt
 # Local database
 study_tracker.db
 
+# Temporary restructuring scripts (not needed for deployment)
+auto_restructure.py
+final_restructure.py
+quick_reorder.py
+restructure_schedule.py
+simple_reorder.py
+
 # Streamlit secrets (local dev only — add secrets via Streamlit Cloud dashboard)
 .streamlit/secrets.toml
 
