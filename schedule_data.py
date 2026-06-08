@@ -1,8 +1,8 @@
 from datetime import date, timedelta
 from typing import List, Dict
 
-# Updated Start Date: Monday, Mar 9, 2026
-START_DATE = date(2026, 3, 9)
+# Updated Start Date: Monday, Jun 8, 2026
+START_DATE = date(2026, 6, 8)
 
 WEEKLY_PLANS: List[Dict] = [
     # ═══════════════════════════════════════════════════════════════════
