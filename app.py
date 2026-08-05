@@ -7,15 +7,17 @@ from datetime import date, timedelta, datetime
 import pandas as pd
 from zoneinfo import ZoneInfo
 
-from schedule_data import SCHEDULE, WEEKLY_PLANS, START_DATE
+from schedule_data import WEEKLY_PLANS, START_DATE, generate_schedule
 from database import (
     init_db, save_note, get_note, toggle_task,
     get_completed_tasks, save_hours, get_hours,
     get_all_hours, get_all_completed_tasks, get_all_notes,
+    add_schedule_shift, get_schedule_shifts, clear_schedule_shifts,
 )
 
 # ── Init ──────────────────────────────────────────────────────────────
 init_db()
+SCHEDULE = generate_schedule(get_schedule_shifts())
 st.set_page_config(
     page_title="FDE Study Tracker",
     page_icon="🚀",
@@ -63,20 +65,22 @@ def get_day_entry(d: date):
             return entry
     return None
 
+TOTAL_WEEKS = len(WEEKLY_PLANS)
+
 def days_until_end():
-    end = START_DATE + timedelta(weeks=26)
+    end = START_DATE + timedelta(weeks=TOTAL_WEEKS)
     return (end - get_local_today()).days
 
 def current_week():
     delta = (get_local_today() - START_DATE).days
     if delta < 0:
         return 0
-    return min(delta // 7 + 1, 26)
+    return min(delta // 7 + 1, TOTAL_WEEKS)
 
 # ── Sidebar ───────────────────────────────────────────────────────────
 with st.sidebar:
     st.title("🚀 FDE Study Tracker")
-    st.caption("6-Month Career Pivot Roadmap")
+    st.caption("Career Pivot Roadmap")
     st.divider()
     page = st.radio("Navigate", [
         "📅 Today",
@@ -84,12 +88,13 @@ with st.sidebar:
         "🗓️ Full Schedule",
         "📊 Progress",
         "📝 All Notes",
+        "⏩ Reschedule",
     ], label_visibility="collapsed")
     st.divider()
     cw = current_week()
-    st.metric("Current Week", f"{cw} / 26")
+    st.metric("Current Week", f"{cw} / {TOTAL_WEEKS}")
     st.metric("Days Remaining", days_until_end())
-    st.progress(min(cw / 26, 1.0))
+    st.progress(min(cw / TOTAL_WEEKS, 1.0))
 
 # ══════════════════════════════════════════════════════════════════════
 # PAGE: TODAY
@@ -169,7 +174,7 @@ elif page == "📆 Weekly View":
     st.header("📆 Weekly View")
     week_num = st.selectbox(
         "Select Week",
-        range(1, 27),
+        range(1, TOTAL_WEEKS + 1),
         index=max(0, current_week() - 1),
         format_func=lambda w: f"Week {w}: {WEEKLY_PLANS[w-1]['theme']}"
     )
@@ -210,7 +215,7 @@ elif page == "📆 Weekly View":
 # PAGE: FULL SCHEDULE
 # ══════════════════════════════════════════════════════════════════════
 elif page == "🗓️ Full Schedule":
-    st.header("🗓️ Full 26-Week Schedule")
+    st.header(f"🗓️ Full {TOTAL_WEEKS}-Week Schedule")
     all_completed = get_all_completed_tasks()
 
     # Phase filter
@@ -296,9 +301,9 @@ elif page == "📊 Progress":
         weekly_targets[w] = weekly_targets.get(w, 0) + e["target_hours"]
 
     chart_data = pd.DataFrame({
-        "Week": list(range(1, 27)),
-        "Studied": [weekly_hours.get(w, 0) for w in range(1, 27)],
-        "Target": [weekly_targets.get(w, 0) for w in range(1, 27)],
+        "Week": list(range(1, TOTAL_WEEKS + 1)),
+        "Studied": [weekly_hours.get(w, 0) for w in range(1, TOTAL_WEEKS + 1)],
+        "Target": [weekly_targets.get(w, 0) for w in range(1, TOTAL_WEEKS + 1)],
     }).set_index("Week")
     st.bar_chart(chart_data)
 
@@ -337,4 +342,38 @@ elif page == "📝 All Notes":
             topic = entry["topic"] if entry else "Unknown"
             with st.expander(f"📅 **{date_str}** — {topic}"):
                 st.markdown(note)
+
+# ══════════════════════════════════════════════════════════════════════
+# PAGE: RESCHEDULE
+# ══════════════════════════════════════════════════════════════════════
+elif page == "⏩ Reschedule":
+    st.header("⏩ Reschedule")
+    st.caption("Missed a day? Push it and everything after it forward by N days.")
+
+    upcoming = [e for e in SCHEDULE if e["date"] >= get_local_today()]
+    if not upcoming:
+        st.info("No upcoming days left in the schedule to push forward.")
+    else:
+        selected_date = st.selectbox(
+            "Push forward starting from",
+            [e["date"] for e in upcoming],
+            format_func=lambda d: d.strftime("%A, %b %d, %Y"),
+        )
+        shift_days = st.number_input("Push forward by how many days?", min_value=1, max_value=30, value=1, step=1)
+
+        if st.button("Apply Shift"):
+            entry = get_day_entry(selected_date)
+            add_schedule_shift(entry["content_index"], int(shift_days))
+            st.rerun()
+
+    st.divider()
+    st.subheader("Shift History")
+    shifts = get_schedule_shifts()
+    if not shifts:
+        st.caption("No shifts applied yet — schedule is running on its original dates.")
+    else:
+        st.dataframe(pd.DataFrame(shifts), use_container_width=True, hide_index=True)
+        if st.button("Reset All Shifts"):
+            clear_schedule_shifts()
+            st.rerun()
 

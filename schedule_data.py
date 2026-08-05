@@ -1,501 +1,289 @@
 from datetime import date, timedelta
-from typing import List, Dict
+from typing import List, Dict, Optional
 
-# Updated Start Date: Monday, Jun 8, 2026
-START_DATE = date(2026, 6, 8)
+# Start Date: Monday, Aug 10, 2026
+START_DATE = date(2026, 8, 10)
 
 WEEKLY_PLANS: List[Dict] = [
     # ═══════════════════════════════════════════════════════════════════
-    # PHASE 1A – Python Proficiency (Weeks 1-4)
+    # PHASE 0 – Python Fundamentals Gap-Fill (Weeks 1-6)
     # ═══════════════════════════════════════════════════════════════════
-    {   # Week 1: Modified - No setup, 1 lecture per day
+    {   # Week 1: CS50P Foundations (Lectures 0-2)
         "week": 1,
-        "phase": "Phase 1: Python & DSA",
-        "theme": "Python Foundations – CS50P Fast Track",
+        "phase": "Phase 0: Python Fundamentals",
+        "theme": "CS50P Foundations (Lectures 0-2)",
         "days": [
             {"topic": "CS50P Lecture 0: Functions, Variables",
-             "tasks": ["Watch CS50P Lecture 0", "Complete Problem Set 0", "Create GitHub repo 'fde-journey'"],
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 0", "🌆 Evening (2h): Complete Problem Set 0"],
              "resources": ["https://cs50.harvard.edu/python/"]},
             {"topic": "CS50P Lecture 1: Conditionals",
-             "tasks": ["Watch CS50P Lecture 1", "Complete Problem Set 1"],
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 1", "🌆 Evening (2h): Complete Problem Set 1"],
              "resources": ["https://cs50.harvard.edu/python/"]},
             {"topic": "CS50P Lecture 2: Loops",
-             "tasks": ["Watch CS50P Lecture 2", "Complete Problem Set 2"],
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 2", "🌆 Evening (2h): Complete Problem Set 2"],
              "resources": ["https://cs50.harvard.edu/python/"]},
-            {"topic": "CS50P Lecture 3: Exceptions",
-             "tasks": ["Watch CS50P Lecture 3", "Complete Problem Set 3"],
-             "resources": ["https://cs50.harvard.edu/python/"]},
-            {"topic": "Python Practice – Strings & Lists",
-             "tasks": ["Solve 3 easy string manipulation exercises", "LeetCode Easy: Two Sum (#1)", "Review week 1 code"],
-             "resources": ["https://leetcode.com/problems/two-sum/"]},
-            {"topic": "Weekend Deep Dive: Dictionaries & Sets",
-             "tasks": ["Practice dict/set operations", "LeetCode Easy: Contains Duplicate (#217)", "Build a word frequency counter script"],
-             "resources": ["https://leetcode.com/problems/contains-duplicate/"]},
-            {"topic": "Weekend Review & File I/O Intro",
-             "tasks": ["Read/write CSV files with Python", "LeetCode Easy: Best Time to Buy and Sell Stock (#121)", "Push all code to GitHub"],
-             "resources": ["https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"]},
+            {"topic": "Review: Functions, Conditionals, Loops",
+             "tasks": ["🌅 Morning (1.5h): Review functions/conditionals/loops via quick drills",
+                        "🌆 Evening (2h): Solve 2 warm-up problems (FizzBuzz variant, palindrome check) using only what's covered so far"],
+             "resources": []},
+            {"topic": "Python Practice – List Basics",
+             "tasks": ["🌅 Morning (1.5h): List basics deep dive (indexing, slicing, comprehensions)",
+                        "🌆 Evening (2h): Practice: 5 list-manipulation snippets from scratch"],
+             "resources": []},
+            {"topic": "Weekend: Dictionaries & Sets",
+             "tasks": ["Dict & set fundamentals (methods, set operations)",
+                        "Build a word-frequency counter script",
+                        "LeetCode Easy: Two Sum (#1)",
+                        "LeetCode Easy: Contains Duplicate (#217)"],
+             "resources": ["https://leetcode.com/problems/two-sum/", "https://leetcode.com/problems/contains-duplicate/"]},
+            {"topic": "Weekend: Review & GitHub Push",
+             "tasks": ["Review week 1 code",
+                        "Push all code to GitHub 'fde-journey' repo",
+                        "Write a short recap note: what clicked, what's still fuzzy"],
+             "resources": []},
         ],
     },
-    {   # Week 2: CS50P Lectures 4-6
+    {   # Week 2: Exceptions, Libraries, NeetCode Easy begins
         "week": 2,
-        "phase": "Phase 1: Python & DSA",
-        "theme": "Python Intermediate – CS50P Lectures 4-6",
+        "phase": "Phase 0: Python Fundamentals",
+        "theme": "Exceptions, Libraries, NeetCode Easy Begins",
         "days": [
-            {"topic": "CS50P Lecture 4: Libraries",
-             "tasks": ["Watch CS50P Lecture 4", "Complete Problem Set 4", "Explore: requests, json, csv modules"],
+            {"topic": "CS50P Lecture 3: Exceptions",
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 3", "🌆 Evening (2h): Complete Problem Set 3"],
              "resources": ["https://cs50.harvard.edu/python/"]},
-            {"topic": "CS50P Lecture 5: Unit Tests",
-             "tasks": ["Watch CS50P Lecture 5", "Complete Problem Set 5", "Learn pytest basics"],
-             "resources": ["https://docs.pytest.org/"]},
-            {"topic": "CS50P Lecture 6: File I/O ⭐",
-             "tasks": ["Watch CS50P Lecture 6", "Complete Problem Set 6", "LeetCode Easy: Valid Anagram (#242)"],
+            {"topic": "CS50P Lecture 4: Libraries",
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 4", "🌆 Evening (2h): Complete Problem Set 4"],
+             "resources": ["https://cs50.harvard.edu/python/"]},
+            {"topic": "NeetCode Easy: Two Sum & Valid Anagram",
+             "tasks": ["🌅 Morning (1.5h): NeetCode Easy: Two Sum, redo with hashmap + explain approach in comments",
+                        "🌆 Evening (2h): NeetCode Easy: Valid Anagram (#242)"],
              "resources": ["https://leetcode.com/problems/valid-anagram/"]},
-            {"topic": "File I/O Deep Dive",
-             "tasks": ["Practice: parse a large CSV with error handling", "LeetCode Medium: Group Anagrams (#49)"],
-             "resources": ["https://leetcode.com/problems/group-anagrams/"]},
-            {"topic": "JSON & API Data Processing",
-             "tasks": ["Fetch data from a public API", "Parse and transform nested JSON"],
+            {"topic": "Requests & JSON Basics",
+             "tasks": ["🌅 Morning (1.5h): requests basics — fetch data from a public API (jsonplaceholder.typicode.com)",
+                        "🌆 Evening (2h): Parse a nested JSON response into a flat dict"],
              "resources": ["https://jsonplaceholder.typicode.com/"]},
-            {"topic": "Unit Testing Practice",
-             "tasks": ["Write comprehensive tests for File I/O scripts", "Learn pytest fixtures"],
-             "resources": ["https://docs.pytest.org/en/stable/fixture.html"]},
-            {"topic": "Week 2 Review & LeetCode",
-             "tasks": ["Review Problem Sets 4-6", "LeetCode Medium: Top K Frequent Elements (#347)"],
-             "resources": ["https://leetcode.com/problems/top-k-frequent-elements/"]},
+            {"topic": "NeetCode Easy: Contains Duplicate & Stock",
+             "tasks": ["🌅 Morning (1.5h): NeetCode Easy: Contains Duplicate, clean redo",
+                        "🌆 Evening (2h): NeetCode Easy: Best Time to Buy/Sell Stock (#121)"],
+             "resources": ["https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"]},
+            {"topic": "Weekend: API Caching Script",
+             "tasks": ["Build a script that fetches + caches API data to a local JSON file and reloads it on next run",
+                        "Review try/except patterns used"],
+             "resources": []},
+            {"topic": "Weekend: NeetCode Sweep & Review",
+             "tasks": ["NeetCode Easy sweep (2-3 more, e.g. Valid Palindrome, Missing Number)",
+                        "Weekly review",
+                        "Push code to GitHub"],
+             "resources": []},
         ],
     },
-    {   # Week 3: CS50P Lectures 7-8 + Project Start
+    {   # Week 3: File I/O, Unit Testing
         "week": 3,
-        "phase": "Phase 1: Python & DSA",
-        "theme": "Python Advanced – Regex & OOP",
+        "phase": "Phase 0: Python Fundamentals",
+        "theme": "File I/O, Unit Testing",
         "days": [
-            {"topic": "CS50P Lecture 7: Regular Expressions ⭐",
-             "tasks": ["Watch CS50P Lecture 7", "Complete Problem Set 7"],
+            {"topic": "CS50P Lecture 5: Unit Tests",
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 5", "🌆 Evening (2h): Complete Problem Set 5, learn pytest basics"],
+             "resources": ["https://cs50.harvard.edu/python/", "https://docs.pytest.org/"]},
+            {"topic": "CS50P Lecture 6: File I/O",
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 6", "🌆 Evening (2h): Complete Problem Set 6"],
+             "resources": ["https://cs50.harvard.edu/python/"]},
+            {"topic": "CSV Handling & Testing",
+             "tasks": ["🌅 Morning (1.5h): Practice CSV read/write with error handling (missing files, malformed rows)",
+                        "🌆 Evening (2h): Write pytest tests for Problem Set 6 solutions"],
+             "resources": []},
+            {"topic": "NeetCode Easy: Arrays",
+             "tasks": ["🌅 Morning (1.5h): NeetCode Easy: Concatenation of Array (#1929)",
+                        "🌆 Evening (2h): NeetCode Easy: Missing Number (#268)"],
+             "resources": ["https://leetcode.com/problems/missing-number/"]},
+            {"topic": "JSON Deep Dive & Mini-Project",
+             "tasks": ["🌅 Morning (1.5h): JSON deep dive: json.load/dump, nested structures",
+                        "🌆 Evening (2h): Mini-project: read a JSON API response, write matching rows to CSV (mirrors your BigQuery pipeline at work, standalone)"],
+             "resources": []},
+            {"topic": "Weekend: Finish Mini-Project",
+             "tasks": ["Finish the mini file-I/O + API + CSV project",
+                        "Add pytest coverage"],
+             "resources": []},
+            {"topic": "Weekend: Review & GitHub Push",
+             "tasks": ["Weekly review",
+                        "Push code to GitHub",
+                        "2 NeetCode Easy problems",
+                        "Update recap note"],
+             "resources": []},
+        ],
+    },
+    {   # Week 4: Regex, OOP
+        "week": 4,
+        "phase": "Phase 0: Python Fundamentals",
+        "theme": "Regex, OOP",
+        "days": [
+            {"topic": "CS50P Lecture 7: Regular Expressions",
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 7", "🌆 Evening (2h): Complete Problem Set 7"],
              "resources": ["https://cs50.harvard.edu/python/"]},
             {"topic": "CS50P Lecture 8: OOP (Part 1)",
-             "tasks": ["Watch CS50P Lecture 8", "Build: DataRecord class with validation"],
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 8 Part 1 (classes, __init__, attributes/methods)",
+                        "🌆 Evening (2h): Build a DataRecord class with validation"],
              "resources": ["https://cs50.harvard.edu/python/"]},
             {"topic": "CS50P Lecture 8: OOP (Part 2)",
-             "tasks": ["Complete Problem Set 8", "Practice: class composition"],
+             "tasks": ["🌅 Morning (1.5h): OOP Part 2 (inheritance, composition)", "🌆 Evening (2h): Complete Problem Set 8"],
              "resources": ["https://cs50.harvard.edu/python/"]},
-            {"topic": "PII Redaction Project – Design",
-             "tasks": ["Design pipeline architecture", "Write regex patterns for PII detection"],
-             "resources": ["https://microsoft.github.io/presidio/"]},
-            {"topic": "PII Redaction Project – Implementation",
-             "tasks": ["Implement PII scanner class", "LeetCode Medium: Product of Array Except Self (#238)"],
-             "resources": ["https://leetcode.com/problems/product-of-array-except-self/"]},
-            {"topic": "Weekend: PII Project Testing",
-             "tasks": ["Write unit tests for PII detection", "Test edge cases"],
+            {"topic": "NeetCode Easy: Stacks",
+             "tasks": ["🌅 Morning (1.5h): NeetCode Easy: Valid Parentheses (#20)",
+                        "🌆 Evening (2h): One more NeetCode Easy of your choice"],
+             "resources": ["https://leetcode.com/problems/valid-parentheses/"]},
+            {"topic": "Class Hierarchy Practice",
+             "tasks": ["🌅 Morning (1.5h): Build a small class hierarchy: base Pipeline class + subclasses per data source (toy version of the Phase 2 agentic pipeline)",
+                        "🌆 Evening (2h): Write pytest tests for the class hierarchy"],
              "resources": []},
-            {"topic": "Weekend Review & LeetCode",
-             "tasks": ["Review OOP and Regex", "LeetCode Medium: Maximum Subarray (#53)"],
-             "resources": ["https://leetcode.com/problems/maximum-subarray/"]},
+            {"topic": "Weekend: Regex + OOP Consolidation",
+             "tasks": ["Extend the week-3 mini project into a class-based pipeline (source → transform → sink)"],
+             "resources": []},
+            {"topic": "Weekend: Review & GitHub Push",
+             "tasks": ["Weekly review",
+                        "Push code to GitHub",
+                        "2 NeetCode Easy problems"],
+             "resources": []},
         ],
     },
-    {   # Week 4: Project Complete + Pandas
-        "week": 4,
-        "phase": "Phase 1: Python & DSA",
-        "theme": "Advanced Python & Phase 1A Checkpoint",
+    {   # Week 5: Et Cetera, Pandas, Integration
+        "week": 5,
+        "phase": "Phase 0: Python Fundamentals",
+        "theme": "Et Cetera, Pandas, Integration",
         "days": [
             {"topic": "CS50P Lecture 9: Et Cetera",
-             "tasks": ["Watch CS50P Lecture 9", "Learn: dataclasses and enums"],
+             "tasks": ["🌅 Morning (1.5h): Watch CS50P Lecture 9 (dataclasses, enums)",
+                        "🌆 Evening (2h): Refactor week 4's classes to use @dataclass"],
              "resources": ["https://cs50.harvard.edu/python/"]},
-            {"topic": "PII Redaction Project – SQL Output",
-             "tasks": ["Add SQLite output to pipeline", "LeetCode Medium: 3Sum (#15)"],
-             "resources": ["https://leetcode.com/problems/3sum/"]},
-            {"topic": "Python Advanced – Environments",
-             "tasks": ["Learn venv and requirements.txt", "LeetCode Medium: Merge Intervals (#56)"],
-             "resources": ["https://leetcode.com/problems/merge-intervals/"]},
             {"topic": "Pandas Fundamentals (Part 1)",
-             "tasks": ["Install pandas, learn DataFrame basics"],
+             "tasks": ["🌅 Morning (1.5h): Pandas fundamentals: Series/DataFrame basics, reading CSV/JSON",
+                        "🌆 Evening (2h): Pandas fundamentals: filtering, grouping, aggregation"],
              "resources": ["https://pandas.pydata.org/docs/getting_started/"]},
-            {"topic": "Pandas Fundamentals (Part 2)",
-             "tasks": ["Data cleaning with pandas (nulls, dtypes)"],
-             "resources": ["https://pandas.pydata.org/docs/user_guide/merging.html"]},
-            {"topic": "Weekend: Phase 1A Checkpoint",
-             "tasks": ["Review all CS50P concepts", "Verify PII project is on GitHub"],
+            {"topic": "NeetCode Easy & Pandas Practice",
+             "tasks": ["🌅 Morning (1.5h): 2 NeetCode Easy problems",
+                        "🌆 Evening (2h): Reproduce an earlier file-I/O script using pandas instead of raw csv/json; compare tradeoffs"],
              "resources": []},
-            {"topic": "Weekend Review & LeetCode",
-             "tasks": ["LeetCode Medium: Search in Rotated Sorted Array (#33)"],
-             "resources": ["https://leetcode.com/problems/search-in-rotated-sorted-array/"]},
+            {"topic": "Error Handling Deep Dive",
+             "tasks": ["🌅 Morning (1.5h): Custom exception classes, logging module basics",
+                        "🌆 Evening (2h): Add logging + custom exceptions to the pipeline project"],
+             "resources": []},
+            {"topic": "Review & Documentation",
+             "tasks": ["🌅 Morning (1.5h): Self-quiz review of CS50P concepts (Lectures 0-9)",
+                        "🌆 Evening (2h): Push a clean, documented version of the pipeline project to GitHub with a README"],
+             "resources": []},
+            {"topic": "Weekend: Integration Project",
+             "tasks": ["Connect the pipeline to a second toy data source, exercising file I/O + JSON + OOP + pandas together"],
+             "resources": []},
+            {"topic": "Weekend: Review & Reflection",
+             "tasks": ["Weekly review",
+                        "Write a note on how this connects to the real BigQuery pipeline at work",
+                        "2 NeetCode Easy problems"],
+             "resources": []},
         ],
     },
-    # ═══════════════════════════════════════════════════════════════════
-    # PHASE 1B – DSA Deep Dive (Weeks 5-8)
-    # ═══════════════════════════════════════════════════════════════════
-    {   # Week 5: HashMaps & Strings
-        "week": 5,
-        "phase": "Phase 1: Python & DSA",
-        "theme": "DSA – HashMaps & Strings",
-        "days": [
-            {"topic": "HashMap Patterns",
-             "tasks": ["Study: hash table internals in Python (dict)", "LeetCode Medium: Longest Consecutive Sequence (#128)"]},
-            {"topic": "String Manipulation Deep Dive",
-             "tasks": ["Study: sliding window, two pointers", "LeetCode Medium: Minimum Window Substring (#76)"]},
-            {"topic": "Advanced Python – Itertools",
-             "tasks": ["Practice itertools (combinations, permutations)", "Build: memory-efficient file processor"]},
-            {"topic": "DSA – Two Pointer Technique",
-             "tasks": ["Study two-pointer patterns", "LeetCode Medium: Trapping Rain Water (#42)"]},
-            {"topic": "Python – Error Handling",
-             "tasks": ["Custom exception classes", "Logging best practices"]},
-            {"topic": "Weekend: Data Pipeline Script",
-             "tasks": ["Design a multi-step data pipeline (API -> SQLite)"]},
-            {"topic": "Weekend Review + Networking",
-             "tasks": ["Review HashMaps", "Reach out to 2 FDEs on LinkedIn"]},
-        ],
-    },
-    {   # Week 6: Arrays & Sliding Window
+    {   # Week 6: Buffer, Review & Transition into Phase 1
         "week": 6,
-        "phase": "Phase 1: Python & DSA",
-        "theme": "DSA – Arrays & Sliding Window",
+        "phase": "Phase 0: Python Fundamentals",
+        "theme": "Buffer, Review & Transition into Phase 1",
         "days": [
-            {"topic": "Sliding Window Pattern",
-             "tasks": ["LeetCode Medium: Longest Repeating Character Replacement (#424)"]},
-            {"topic": "Array Manipulation + Sorting",
-             "tasks": ["Study: merge sort, quick sort", "LeetCode Medium: Kth Largest Element (#215)"]},
-            {"topic": "Binary Search Applications",
-             "tasks": ["Study binary search patterns", "LeetCode Medium: Search a 2D Matrix (#74)"]},
-            {"topic": "Python – Collections Module",
-             "tasks": ["Learn: Counter, defaultdict, deque", "Refactor previous solutions"]},
-            {"topic": "Build: ETL Pipeline with Pandas",
-             "tasks": ["Design ETL for Kaggle dataset (Extract -> Pandas -> SQLite)"]},
-            {"topic": "Weekend: ETL Testing",
-             "tasks": ["Write tests for ETL pipeline", "Add CLI arguments with argparse"]},
-            {"topic": "Weekend Review",
-             "tasks": ["Review sliding window", "Update GitHub portfolio"]},
-        ],
-    },
-    {   # Week 7: Stacks, Queues & Trees
-        "week": 7,
-        "phase": "Phase 1: Python & DSA",
-        "theme": "DSA – Stacks, Queues & Trees",
-        "days": [
-            {"topic": "Stack & Queue Patterns",
-             "tasks": ["LeetCode Medium: Daily Temperatures (#739)"]},
-            {"topic": "Tree Fundamentals",
-             "tasks": ["Study BFS/DFS", "LeetCode Medium: Validate Binary Search Tree (#98)"]},
-            {"topic": "Graph Basics",
-             "tasks": ["Study graph representations", "LeetCode Medium: Number of Islands (#200)"]},
-            {"topic": "Python – Async Basics",
-             "tasks": ["Learn asyncio fundamentals", "Practice: async HTTP requests"]},
-            {"topic": "Build: Async Data Fetcher",
-             "tasks": ["Build async multi-API data aggregator"]},
-            {"topic": "Weekend: Type Hints & Mypy",
-             "tasks": ["Run mypy on all projects", "Fix type errors"]},
-            {"topic": "Weekend Review",
-             "tasks": ["Review trees and graphs"]},
-        ],
-    },
-    {   # Week 8: Consolidation & Phase 1 Wrap-up
-        "week": 8,
-        "phase": "Phase 1: Python & DSA",
-        "theme": "Phase 1 Consolidation",
-        "days": [
-            {"topic": "LeetCode Sprint (Arrays/Strings)",
-             "tasks": ["Solve 3 medium problems", "Focus on clean code"]},
-            {"topic": "LeetCode Sprint (HashMaps/Mixed)",
-             "tasks": ["Solve 3 medium hashmaps", "Review 30 problems solved so far"]},
-            {"topic": "Portfolio Review Day",
-             "tasks": ["Update GitHub READMEs", "Write 1 LinkedIn post about journey"]},
-            {"topic": "Phase 1 -> 2 Transition",
-             "tasks": ["Install LangChain", "Read LangChain quickstart docs"]},
-            {"topic": "LangChain Setup",
-             "tasks": ["Set up OpenAI API key", "Understand: Models, Prompts, Chains"]},
-            {"topic": "Weekend: Prompt Engineering",
-             "tasks": ["Study: zero-shot, few-shot, chain-of-thought"]},
-            {"topic": "Weekend: Phase 1 Complete 🎉",
-             "tasks": ["Final review", "Update resume with Python skills"]},
-        ],
-    },
-    # ═══════════════════════════════════════════════════════════════════
-    # PHASE 2A – Agentic AI & Frameworks (Weeks 9-14)
-    # ═══════════════════════════════════════════════════════════════════
-    {   # Week 9: LangChain Fundamentals
-        "week": 9,
-        "phase": "Phase 2: Agentic AI & Modern Data Stack",
-        "theme": "LangChain – Core",
-        "days": [
-            {"topic": "Models & Prompts", "tasks": ["Build: multi-prompt chatbot"]},
-            {"topic": "Chains & Output Parsers", "tasks": ["Build: structured output chain (JSON)"]},
-            {"topic": "Memory Systems", "tasks": ["Implement: ConversationSummaryMemory"]},
-            {"topic": "LCEL", "tasks": ["Convert chains to LCEL pipe syntax"]},
-            {"topic": "Tools & Agents Intro", "tasks": ["Study: ReAct agent pattern"]},
-            {"topic": "Weekend: Research Agent", "tasks": ["Build agent that searches web + summarizes"]},
-            {"topic": "Weekend: Review", "tasks": ["Push projects to GitHub", "LeetCode maintenance"]},
-        ],
-    },
-    {   # Week 10: RAG Foundations
-        "week": 10,
-        "phase": "Phase 2: Agentic AI & Modern Data Stack",
-        "theme": "Retrievers & RAG",
-        "days": [
-            {"topic": "Document Loaders", "tasks": ["Learn PDF/CSV/SQL loaders"]},
-            {"topic": "Vector Stores", "tasks": ["Set up ChromaDB", "Build embedding pipeline"]},
-            {"topic": "RAG Pipeline", "tasks": ["Build RAG: load -> split -> embed -> retrieve"]},
-            {"topic": "Advanced Retrieval", "tasks": ["Learn: MMR, hybrid search"]},
-            {"topic": "RAG Evaluation", "tasks": ["Build evaluation dataset (10 Q&A pairs)"]},
-            {"topic": "Weekend: Vector DB", "tasks": ["Explore Pinecone", "Learn metadata filtering"]},
-            {"topic": "Weekend: Review", "tasks": ["Draw RAG architecture diagram"]},
-        ],
-    },
-    {   # Week 11: Production RAG
-        "week": 11,
-        "phase": "Phase 2: Agentic AI & Modern Data Stack",
-        "theme": "RAG System – Production Build",
-        "days": [
-            {"topic": "Architecture", "tasks": ["Design production RAG ingestion pipeline"]},
-            {"topic": "Conversation History", "tasks": ["Add memory to RAG", "Contextual compression"]},
-            {"topic": "UI with Streamlit", "tasks": ["Build chat interface", "Add document upload"]},
-            {"topic": "Error Handling", "tasks": ["Handle: no documents found", "Token limits"]},
-            {"topic": "Optimization", "tasks": ["Caching for embeddings", "Optimize chunk size"]},
-            {"topic": "Weekend: Documentation", "tasks": ["Write README", "Record demo video"]},
-            {"topic": "Weekend: System Design", "tasks": ["Draw architecture using RADIO framework"]},
-        ],
-    },
-    {   # Week 12: SQL Agents ⭐
-        "week": 12,
-        "phase": "Phase 2: Agentic AI & Modern Data Stack",
-        "theme": "SQL Agents – LLM + SQL Integration",
-        "days": [
-            {"topic": "SQL Agent Basics", "tasks": ["Build basic SQL agent for Northwind DB"]},
-            {"topic": "Advanced Queries", "tasks": ["Handle: complex JOINs via natural language"]},
-            {"topic": "Error Correction ⭐", "tasks": ["Build: auto-correction loop (retry with error)"]},
-            {"topic": "Schema Understanding", "tasks": ["Teach agent about table relationships"]},
-            {"topic": "Security Layer", "tasks": ["SQL injection prevention", "Read-only enforcement"]},
-            {"topic": "Weekend: Integration Testing", "tasks": ["Test edge cases (empty results)"]},
-            {"topic": "Weekend: Review", "tasks": ["Push SQL Agent to GitHub"]},
-        ],
-    },
-    {   # Week 13: LangGraph
-        "week": 13,
-        "phase": "Phase 2: Agentic AI & Modern Data Stack",
-        "theme": "LangGraph – State Machines",
-        "days": [
-            {"topic": "LangGraph Fundamentals", "tasks": ["Study nodes, edges, state"]},
-            {"topic": "Complex Workflows", "tasks": ["Human-in-the-loop pattern"]},
-            {"topic": "Multi-Agent Collaboration", "tasks": ["Supervisor agent pattern"]},
-            {"topic": "Error Correction Loops ⭐", "tasks": ["Self-correcting SQL agent with LangGraph"]},
-            {"topic": "Streaming & Persistence", "tasks": ["Add checkpoint persistence (SQLite)"]},
-            {"topic": "Weekend: Integrated Project", "tasks": ["SQL gen -> validation -> correction graph"]},
-            {"topic": "Weekend: Review", "tasks": ["Networking: reach out to 2 FDEs"]},
-        ],
-    },
-    {   # Week 14: FastAPI & Deployment
-        "week": 14,
-        "phase": "Phase 2: Agentic AI & Modern Data Stack",
-        "theme": "Advanced Agents & FastAPI",
-        "days": [
-            {"topic": "FastAPI Fundamentals", "tasks": ["Build REST API with CRUD"]},
-            {"topic": "FastAPI + LangChain", "tasks": ["Expose SQL agent as API endpoint"]},
-            {"topic": "Deployment Patterns", "tasks": ["Dockerize your agent app"]},
-            {"topic": "Observability", "tasks": ["Add LangSmith tracing"]},
-            {"topic": "Prompt Engineering", "tasks": ["Few-shot examples for SQL agent"]},
-            {"topic": "Weekend: Project Polish", "tasks": ["Code review all Phase 2 projects"]},
-            {"topic": "Weekend: Phase 2A Review", "tasks": ["Update READMEs", "LeetCode maintenance"]},
-        ],
-    },
-    # ═══════════════════════════════════════════════════════════════════
-    # PHASE 2B – Modern Data Stack (Weeks 15-16)
-    # ═══════════════════════════════════════════════════════════════════
-    {   # Week 15: Snowflake
-        "week": 15,
-        "phase": "Phase 2: Agentic AI & Modern Data Stack",
-        "theme": "Snowflake – Cloud Data Warehouse",
-        "days": [
-            {"topic": "Snowflake Fundamentals", "tasks": ["Snowflake free trial", "Web UI"]},
-            {"topic": "Data Loading", "tasks": ["Practice: COPY INTO", "Load sample TPC-H data"]},
-            {"topic": "Advanced Features", "tasks": ["Time Travel, Cloning", "Snowpark Python"]},
-            {"topic": "Python Integration", "tasks": ["Use snowflake-connector-python"]},
-            {"topic": "Architecture", "tasks": ["Study multi-cluster shared data"]},
-            {"topic": "Weekend: SQL Agent", "tasks": ["Connect SQL agent to Snowflake"]},
-            {"topic": "Weekend: Review", "tasks": ["Document Snowflake interview points"]},
-        ],
-    },
-    {   # Week 16: dbt
-        "week": 16,
-        "phase": "Phase 2: Agentic AI & Modern Data Stack",
-        "theme": "dbt – Data Transformation",
-        "days": [
-            {"topic": "dbt Fundamentals", "tasks": ["Install dbt-core + snowflake adapter"]},
-            {"topic": "Models & Testing", "tasks": ["Build staging/mart models", "dbt tests"]},
-            {"topic": "Macros & Jinja", "tasks": ["Write custom dbt macros"]},
-            {"topic": "Snowflake Integration", "tasks": ["Run dbt models against Snowflake"]},
-            {"topic": "Lineage", "tasks": ["Generate dbt docs", "Lineage graph"]},
-            {"topic": "Weekend: Integration", "tasks": ["Connect dbt -> Snowflake -> SQL Agent"]},
-            {"topic": "Weekend: Phase 2 Complete 🎉", "tasks": ["Update resume with AI/Agent skills"]},
-        ],
-    },
-    # ═══════════════════════════════════════════════════════════════════
-    # PHASE 3A – Security & Compliance (Weeks 17-19)
-    # ═══════════════════════════════════════════════════════════════════
-    {   # Week 17: OWASP for LLMs
-        "week": 17,
-        "phase": "Phase 3: Security, Evals & Production",
-        "theme": "OWASP LLM Top 10",
-        "days": [
-            {"topic": "OWASP Overview", "tasks": ["Study Prompt Injection, Output Handling"]},
-            {"topic": "Injection & Data", "tasks": ["Build prompt injection test suite"]},
-            {"topic": "Access & Denial", "tasks": ["Document security checklist"]},
-            {"topic": "Input Validation", "tasks": ["Build validation middleware", "Rate limiting"]},
-            {"topic": "Guardrails", "tasks": ["Implement topic restriction guardrails"]},
-            {"topic": "Weekend: Security Audit", "tasks": ["Audit RAG and SQL agent projects"]},
-            {"topic": "Weekend: Review", "tasks": ["Networking: engage in LangChain discussions"]},
-        ],
-    },
-    {   # Week 18: Presidio – PII Redaction
-        "week": 18,
-        "phase": "Phase 3: Security, Evals & Production",
-        "theme": "Microsoft Presidio",
-        "days": [
-            {"topic": "Presidio Fundamentals", "tasks": ["Run PII detection on sample text"]},
-            {"topic": "Custom Recognizers", "tasks": ["Build recognizer for healthcare data"]},
-            {"topic": "SQL Agent Integration", "tasks": ["Add PII redaction to agent input/output"]},
-            {"topic": "RAG Integration", "tasks": ["Redact PII before embedding docs"]},
-            {"topic": "Privacy Patterns", "tasks": ["Study HIPAA/GDPR requirements"]},
-            {"topic": "Weekend: PII Testing", "tasks": ["Write detection tests", "Accuracy metrics"]},
-            {"topic": "Weekend: Review", "tasks": ["Push PII updates to GitHub"]},
-        ],
-    },
-    {   # Week 19: Security Integration
-        "week": 19,
-        "phase": "Phase 3: Security, Evals & Production",
-        "theme": "Security Compliance",
-        "days": [
-            {"topic": "Architecture Docs", "tasks": ["Threat model for SQL agent"]},
-            {"topic": "LLM Firewalls", "tasks": ["Build moderation chain for output"]},
-            {"topic": "Adversarial Testing", "tasks": ["Test SQL injection via natural language"]},
-            {"topic": "Secrets Management", "tasks": ["Audit secrets in Git history"]},
-            {"topic": "Mock Interview", "tasks": ["Practice AI data privacy questions"]},
-            {"topic": "Weekend: Portfolio Review", "tasks": ["Add security sections to READMEs"]},
-            {"topic": "Weekend: Phase 3A Review", "tasks": ["Security skills checkpoint"]},
-        ],
-    },
-    # ═══════════════════════════════════════════════════════════════════
-    # PHASE 3B – Evals & Observability (Weeks 20-22)
-    # ═══════════════════════════════════════════════════════════════════
-    {   # Week 20: Ragas
-        "week": 20,
-        "phase": "Phase 3: Security, Evals & Production",
-        "theme": "Ragas Evaluation",
-        "days": [
-            {"topic": "Ragas Setup", "tasks": ["Faithfulness and relevancy metrics"]},
-            {"topic": "Dataset Creation", "tasks": ["Create ground truth Q&A (20+ pairs)"]},
-            {"topic": "Advanced Metrics", "tasks": ["Context precision and recall"]},
-            {"topic": "RAG Optimization", "tasks": ["Optimize based on eval scores"]},
-            {"topic": "Automation", "tasks": ["Build automated eval pipeline"]},
-            {"topic": "Weekend: Human Eval", "tasks": ["Build human evaluation interface"]},
-            {"topic": "Weekend: Review", "tasks": ["Compare human vs Ragas scores"]},
-        ],
-    },
-    {   # Week 21: Observability
-        "week": 21,
-        "phase": "Phase 3: Security, Evals & Production",
-        "theme": "Monitoring",
-        "days": [
-            {"topic": "LangSmith Deep Dive", "tasks": ["Set up project tags and datasets"]},
-            {"topic": "Feedback Loops", "tasks": ["Capture user feedback in Streamlit UI"]},
-            {"topic": "Cost Monitoring", "tasks": ["Build token usage tracker"]},
-            {"topic": "Alerting", "tasks": ["Set up alerts for high latency/error rate"]},
-            {"topic": "Trace Analysis", "tasks": ["Identify bottlenecks in multi-agent graph"]},
-            {"topic": "Weekend: A/B Testing", "tasks": ["Test two prompt versions with LangSmith"]},
-            {"topic": "Weekend: Review", "tasks": ["Document observability strategy"]},
-        ],
-    },
-    {   # Week 22: Capstone Design
-        "week": 22,
-        "phase": "Phase 3: Security, Evals & Production",
-        "theme": "Capstone Project Planning",
-        "days": [
-            {"topic": "Problem Definition", "tasks": ["Select high-value FDE use case"]},
-            {"topic": "Architecture Design", "tasks": ["Draft RADIO framework diagram"]},
-            {"topic": "Data Strategy", "tasks": ["Select source datasets (SQL + Docs)"]},
-            {"topic": "Tech Stack", "tasks": ["LangGraph + Snowflake + Presidio + Ragas"]},
-            {"topic": "MVP Scoping", "tasks": ["Define core features for week 23-25"]},
-            {"topic": "Weekend: Project Setup", "tasks": ["Initialize GitHub repo", "Infra setup"]},
-            {"topic": "Weekend: Review", "tasks": ["Capstone pitch for LinkedIn"]},
-        ],
-    },
-    # ═══════════════════════════════════════════════════════════════════
-    # PHASE 4 – Capstone & Career (Weeks 23-26)
-    # ═══════════════════════════════════════════════════════════════════
-    {   # Week 23: Capstone – Build Phase 1
-        "week": 23,
-        "phase": "Phase 4: Capstone & Career",
-        "theme": "Capstone – Core Build",
-        "days": [
-            {"topic": "Data Ingestion", "tasks": ["Build Snowflake/dbt pipeline"]},
-            {"topic": "RAG/SQL Implementation", "tasks": ["Implement core agent logic"]},
-            {"topic": "Agent State Graph", "tasks": ["Build LangGraph workflow"]},
-            {"topic": "UI Integration", "tasks": ["Connect logic to Streamlit frontend"]},
-            {"topic": "Security Layer", "tasks": ["Add PII and injection protection"]},
-            {"topic": "Weekend: Initial Evals", "tasks": ["Run Ragas against first draft"]},
-            {"topic": "Weekend: Career Prep", "tasks": ["Update LinkedIn with Capstone progress"]},
-        ],
-    },
-    {   # Week 24: Capstone – Build Phase 2
-        "week": 24,
-        "phase": "Phase 4: Capstone & Career",
-        "theme": "Capstone – Refinement",
-        "days": [
-            {"topic": "Edge Case Handling", "tasks": ["Improve error correction loops"]},
-            {"topic": "Performance", "tasks": ["Reduce latency via caching/async"]},
-            {"topic": "Advanced UI", "tasks": ["Add data visualization/lineage to UI"]},
-            {"topic": "Testing", "tasks": ["End-to-end integration tests"]},
-            {"topic": "Observability", "tasks": ["Full LangSmith integration"]},
-            {"topic": "Weekend: Documentation", "tasks": ["Write comprehensive project guide"]},
-            {"topic": "Weekend: Career Prep", "tasks": ["FDE-specific resume updates"]},
-        ],
-    },
-    {   # Week 25: Career – Interview Prep
-        "week": 25,
-        "phase": "Phase 4: Capstone & Career",
-        "theme": "Career Readiness",
-        "days": [
-            {"topic": "Project Demo", "tasks": ["Record high-quality video walkthrough"]},
-            {"topic": "System Design", "tasks": ["Practice FDE system design mocks"]},
-            {"topic": "Technical Prep", "tasks": ["Review SQL, Python, Agent patterns"]},
-            {"topic": "Behavioral Prep", "tasks": ["STAR stories for FDE roles"]},
-            {"topic": "Networking", "tasks": ["Reach out to hiring managers"]},
-            {"topic": "Weekend: Mock Interviews", "tasks": ["Conduct 2 mock technical rounds"]},
-            {"topic": "Weekend: Review", "tasks": ["Final portfolio polish"]},
-        ],
-    },
-    {   # Week 26: Graduation & Job Search
-        "week": 26,
-        "phase": "Phase 4: Capstone & Career",
-        "theme": "Go to Market",
-        "days": [
-            {"topic": "Portfolio Launch", "tasks": ["Publish capstone blog post"]},
-            {"topic": "Job Applications", "tasks": ["Apply to 10 target FDE/Solutions roles"]},
-            {"topic": "Networking", "tasks": ["Informational interviews"]},
-            {"topic": "Continued Learning", "tasks": ["Read 2 new AI research papers"]},
-            {"topic": "LeetCode Maintenance", "tasks": ["Daily medium problem"]},
-            {"topic": "Weekend: Review", "tasks": ["Plan continuing education goals"]},
-            {"topic": "Weekend: Celebrate! 🎉", "tasks": ["Reflect on 26-week journey"]},
+            {"topic": "NeetCode Sweep",
+             "tasks": ["🌅 Morning (1.5h): NeetCode Easy sweep on lowest-confidence topics",
+                        "🌆 Evening (2h): Review weak spots from this phase"],
+             "resources": []},
+            {"topic": "NeetCode 150 Roadmap",
+             "tasks": ["🌅 Morning (1.5h): Skim the NeetCode 150 roadmap, pick your Phase 1 pattern order (Arrays/Hashing first)",
+                        "🌆 Evening (2h): Solve first 2 problems from that pattern group"],
+             "resources": ["https://neetcode.io/practice"]},
+            {"topic": "LLM API Fundamentals",
+             "tasks": ["🌅 Morning (1.5h): Read the Claude/OpenAI API quickstart docs",
+                        "🌆 Evening (2h): Make your first API call to an LLM from a Python script"],
+             "resources": []},
+            {"topic": "Project Review",
+             "tasks": ["🌅 Morning (1.5h): Review the Phase 0 pipeline project end-to-end",
+                        "🌆 Evening (2h): Update its README and push the final version to GitHub"],
+             "resources": []},
+            {"topic": "Resume Draft & Catch-up",
+             "tasks": ["🌅 Morning (1.5h): Draft a resume bullet for 'Python fundamentals + mini data pipeline project' (rough, polish in Phase 3)",
+                        "🌆 Evening (2h): Buffer/catch-up for anything unfinished"],
+             "resources": []},
+            {"topic": "Weekend: Phase 0 Checkpoint",
+             "tasks": ["Self-assess against the CLAUDE.md 'not yet fluent' list (data structures, OOP, file I/O, exceptions, JSON, APIs)"],
+             "resources": []},
+            {"topic": "Weekend: Phase 0 Complete 🎉",
+             "tasks": ["Phase 0 wrap-up",
+                        "Rest before Phase 1",
+                        "Add a reflection note in the app"],
+             "resources": []},
         ],
     },
 ]
 
+
+def _placeholder_week(week_num: int, phase: str, theme: str) -> Dict:
+    """A lightweight 7-day placeholder for weeks not yet planned in detail."""
+    placeholder_task = f"Detailed plan to be added closer to this week — see CLAUDE.md {phase.split(':')[0]} notes"
+    return {
+        "week": week_num,
+        "phase": phase,
+        "theme": theme,
+        "days": [
+            {"topic": f"Week {week_num}: {theme} (not yet planned)",
+             "tasks": [placeholder_task],
+             "resources": []}
+            for _ in range(7)
+        ],
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════
+# PHASE 1-4 – Placeholders (weeks 7-29), to be fleshed out later
+# ═══════════════════════════════════════════════════════════════════
+_PLACEHOLDER_PHASES = [
+    ("Phase 1: NeetCode 150 & LLM API Fundamentals", 8),   # weeks 7-14
+    ("Phase 2: Portfolio Projects (RAG + Agentic Pipeline)", 8),  # weeks 15-22
+    ("Phase 3: Resume Polish & Applications", 3),          # weeks 23-25
+    ("Phase 4: Interviews & Iteration", 4),                # weeks 26-29
+]
+
+_next_week = len(WEEKLY_PLANS) + 1
+for _phase_name, _num_weeks in _PLACEHOLDER_PHASES:
+    for _ in range(_num_weeks):
+        WEEKLY_PLANS.append(_placeholder_week(_next_week, _phase_name, _phase_name.split(": ", 1)[1]))
+        _next_week += 1
+
 DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-def generate_schedule() -> List[Dict]:
-    """Generate the full day-by-day schedule."""
+
+def generate_schedule(shifts: Optional[List[Dict]] = None) -> List[Dict]:
+    """Generate the full day-by-day schedule.
+
+    `shifts` is an optional list of {"content_index": i, "shift_days": n} dicts.
+    Each entry delays content_index i (and everything after it, since dates are
+    assigned by walking forward sequentially) by n additional calendar days.
+    """
+    shift_map: Dict[int, int] = {}
+    for s in shifts or []:
+        shift_map[s["content_index"]] = shift_map.get(s["content_index"], 0) + s["shift_days"]
+
     schedule = []
+    content_index = 0
+    current_date = START_DATE
+
     for week_plan in WEEKLY_PLANS:
         week_num = week_plan["week"]
         phase = week_plan["phase"]
         theme = week_plan["theme"]
-        # Cycle starts every Monday
-        week_start = START_DATE + timedelta(weeks=week_num - 1)
 
-        for i, day_plan in enumerate(week_plan["days"]):
-            day_date = week_start + timedelta(days=i)
+        for day_plan in week_plan["days"]:
+            if content_index in shift_map:
+                current_date += timedelta(days=shift_map[content_index])
+
+            day_date = current_date
             weekday = day_date.weekday()
             is_weekend = weekday >= 5
-            # Updated weekday hours to 3.5
-            hours = 7.0 if is_weekend else 3.5
+            hours = 5.0 if is_weekend else 3.5
 
             schedule.append({
+                "content_index": content_index,
                 "date": day_date,  # date object for comparison
                 "date_str": day_date.strftime("%Y-%m-%d"),  # string for database keys
                 "day": DAY_NAMES[weekday],
@@ -508,7 +296,12 @@ def generate_schedule() -> List[Dict]:
                 "resources": day_plan.get("resources", []),  # resources list
                 "target_hours": hours,
             })
+
+            current_date += timedelta(days=1)
+            content_index += 1
+
     return schedule
+
 
 # Generate the schedule (used by app.py as SCHEDULE)
 SCHEDULE = generate_schedule()

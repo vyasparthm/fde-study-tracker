@@ -5,6 +5,9 @@ Github.txt
 # Local database
 study_tracker.db
 
+# Local backups (not for version control)
+backup_pre_phase0_rewrite/
+
 # Temporary restructuring scripts (not needed for deployment)
 auto_restructure.py
 final_restructure.py

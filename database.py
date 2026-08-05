@@ -94,3 +94,24 @@ def get_all_notes() -> dict:
     )
     return {row["date"]: row["note"] for row in result.data}
 
+
+# ── Schedule Shifts (reschedule feature) ────────────────────────────
+def add_schedule_shift(content_index: int, shift_days: int):
+    _sb().table("schedule_shifts").insert(
+        {"content_index": content_index, "shift_days": shift_days}
+    ).execute()
+
+
+def get_schedule_shifts() -> list:
+    result = (
+        _sb().table("schedule_shifts")
+        .select("content_index, shift_days")
+        .order("content_index")
+        .execute()
+    )
+    return result.data
+
+
+def clear_schedule_shifts():
+    _sb().table("schedule_shifts").delete().neq("content_index", -1).execute()
+
