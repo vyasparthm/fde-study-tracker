@@ -77,6 +77,31 @@ def current_week():
         return 0
     return min(delta // 7 + 1, TOTAL_WEEKS)
 
+def current_streak(all_hours: dict) -> int:
+    """Consecutive days (walking backward from today) with hours logged.
+    Today gets a grace pass if not logged yet, so the streak doesn't drop
+    to 0 mid-day before you've had a chance to log it."""
+    today = get_local_today()
+    past_dates = sorted((e["date"] for e in SCHEDULE if e["date"] <= today), reverse=True)
+    streak = 0
+    for d in past_dates:
+        if all_hours.get(d.strftime("%Y-%m-%d"), 0) > 0:
+            streak += 1
+        elif d == today:
+            continue
+        else:
+            break
+    return streak
+
+def week_consistency(all_hours: dict) -> tuple:
+    """(days logged, days in schedule) for the Mon-Sun week containing today."""
+    today = get_local_today()
+    week_start = today - timedelta(days=today.weekday())
+    week_end = week_start + timedelta(days=6)
+    week_dates = [e["date"] for e in SCHEDULE if week_start <= e["date"] <= week_end]
+    logged = sum(1 for d in week_dates if all_hours.get(d.strftime("%Y-%m-%d"), 0) > 0)
+    return logged, len(week_dates)
+
 # ── Sidebar ───────────────────────────────────────────────────────────
 with st.sidebar:
     st.title("🚀 FDE Study Tracker")
@@ -251,6 +276,18 @@ elif page == "📊 Progress":
     st.header("📊 Progress Dashboard")
     all_completed = get_all_completed_tasks()
     all_hours = get_all_hours()
+
+    # Streak & consistency
+    streak = current_streak(all_hours)
+    logged, week_total = week_consistency(all_hours)
+    st.subheader("🔥 Streak")
+    streak_col1, streak_col2 = st.columns(2)
+    with streak_col1:
+        st.metric("Current Streak", f"{streak} day{'s' if streak != 1 else ''}")
+    with streak_col2:
+        st.metric("This Week", f"{logged}/{week_total} days logged")
+
+    st.divider()
 
     # Overall stats
     total_tasks = sum(len(e["tasks"]) for e in SCHEDULE)
